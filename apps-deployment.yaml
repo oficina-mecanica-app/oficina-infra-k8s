@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: os-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: os-service
+  template:
+    metadata:
+      labels:
+        app: os-service
+    spec:
+      containers:
+        - name: os-service
+          image: seu-docker-hub/oficina-os-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-service:5432/oficina_os
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: os-service
+spec:
+  selector:
+    app: os-service
+  ports:
+    - port: 80
+      targetPort: 8080
