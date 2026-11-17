@@ -22,7 +22,10 @@ spec:
         - name: RABBITMQ_DEFAULT_USER
           value: "admin"
         - name: RABBITMQ_DEFAULT_PASS
-          value: "admin_password"
+          valueFrom:
+            secretKeyRef:
+              name: oficina-secrets
+              key: rabbitmq-password
 ---
 apiVersion: v1
 kind: Service
@@ -60,7 +63,10 @@ spec:
         - name: POSTGRES_USER
           value: "admin"
         - name: POSTGRES_PASSWORD
-          value: "admin_password"
+          valueFrom:
+            secretKeyRef:
+              name: oficina-secrets
+              key: postgres-password
         - name: POSTGRES_DB
           value: "oficina_os"
 ---
@@ -95,7 +101,10 @@ spec:
         - containerPort: 3306
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "root_password"
+          valueFrom:
+            secretKeyRef:
+              name: oficina-secrets
+              key: mysql-root-password
         - name: MYSQL_DATABASE
           value: "oficina_billing"
 ---
@@ -132,7 +141,10 @@ spec:
         - name: MONGO_INITDB_ROOT_USERNAME
           value: "admin"
         - name: MONGO_INITDB_ROOT_PASSWORD
-          value: "admin_password"
+          valueFrom:
+            secretKeyRef:
+              name: oficina-secrets
+              key: mongo-password
 ---
 apiVersion: v1
 kind: Service
